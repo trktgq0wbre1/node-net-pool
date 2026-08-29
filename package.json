@@ -1,0 +1,10 @@
+{
+  "name": "node-request-utils",
+  "version": "1.0.0",
+  "description": "Node.js HTTP request utilities",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "node index.js"
+  },
+  "license": "MIT"
+}
